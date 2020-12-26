@@ -1,0 +1,6 @@
+# Auto Configure 导入配置
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.biocv.boot.autoconfigure.context.MessageSourceAutoConfiguration,\
+com.biocv.boot.autoconfigure.security.SecurityAutoConfiguration,\
+com.biocv.boot.autoconfigure.logging.LogginAutoConfiguration,\
+com.biocv.boot.autoconfigure.data.jpa.JpaRepositoryConfiguration\
