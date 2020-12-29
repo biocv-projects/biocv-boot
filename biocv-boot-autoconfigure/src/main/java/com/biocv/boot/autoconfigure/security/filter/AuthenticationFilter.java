@@ -2,6 +2,7 @@ package com.biocv.boot.autoconfigure.security.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.context.annotation.Description;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -21,9 +22,10 @@ import java.nio.charset.Charset;
  * @author kai
  * @date 2020/9/28 14:44
  */
-public class MyUsernameAndPasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+//@Deprecated
+public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    public MyUsernameAndPasswordAuthenticationFilter() {
+    public AuthenticationFilter() {
         super(new AntPathRequestMatcher("/login", "POST"));
     }
 

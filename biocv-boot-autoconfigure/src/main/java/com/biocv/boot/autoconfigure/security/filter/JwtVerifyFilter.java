@@ -1,7 +1,7 @@
 package com.biocv.boot.autoconfigure.security.filter;
 
 import com.auth0.jwt.JWT;
-import com.biocv.boot.autoconfigure.security.config.JwtAuthenticationToken;
+import com.biocv.boot.autoconfigure.security.bean.JwtTokenAuthentication;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -26,7 +26,7 @@ import java.io.IOException;
  * @author kai
  * @date 2020/9/28 17:41
  */
-public class JwtTokenFilter extends OncePerRequestFilter {
+public class JwtVerifyFilter extends OncePerRequestFilter {
 
     //认证管理器
     private AuthenticationManager authenticationManager;
@@ -40,7 +40,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     //失败的处理器
     private AuthenticationFailureHandler failureHandler;
 
-    public JwtTokenFilter(){
+    public JwtVerifyFilter(){
         requiresAuthenticationRequestMatcher = new RequestHeaderRequestMatcher("Authorization");
     }
 
@@ -57,7 +57,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         //从头中获取token并封装后提交给AuthenticationManager
         String token = getJwtToken(request);
         try {
-            JwtAuthenticationToken authToken = new JwtAuthenticationToken(JWT.decode(token));
+            JwtTokenAuthentication authToken = new JwtTokenAuthentication(JWT.decode(token));
             authResult = this.getAuthenticationManager().authenticate(authToken);
 
         }catch (AuthenticationException failed){

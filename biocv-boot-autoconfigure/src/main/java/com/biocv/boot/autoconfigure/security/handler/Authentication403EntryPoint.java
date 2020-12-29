@@ -21,8 +21,7 @@ import java.io.IOException;
  * @author kai
  * @date 2020/10/24 13:55
  */
-//@Component
-public class BioCV403AuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class Authentication403EntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {

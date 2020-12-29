@@ -1,7 +1,7 @@
 package com.biocv.boot.autoconfigure.security.config;
 
-import com.biocv.boot.autoconfigure.security.filter.JwtTokenFilter;
-import com.biocv.boot.autoconfigure.security.handler.LoginFailHandler;
+import com.biocv.boot.autoconfigure.security.filter.JwtVerifyFilter;
+import com.biocv.boot.autoconfigure.security.handler.AuthenticateFailHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -14,17 +14,17 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
  * @author kai
  * @date 2020/10/4 15:25
  */
-public final class JwtLoginConfigurer <H extends HttpSecurityBuilder<H>> extends AbstractHttpConfigurer<JwtLoginConfigurer<H>, H> {
+public final class JwtVerifyConfigurer<H extends HttpSecurityBuilder<H>> extends AbstractHttpConfigurer<JwtVerifyConfigurer<H>, H> {
 
-    private JwtTokenFilter authFilter = new JwtTokenFilter();
+    private JwtVerifyFilter jwtVerifyFilter = new JwtVerifyFilter();
 
     @Override
     public void configure(H http) throws Exception {
-        authFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
-        authFilter.setAuthenticationFailureHandler(new LoginFailHandler());
+        jwtVerifyFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
+        jwtVerifyFilter.setAuthenticationFailureHandler(new AuthenticateFailHandler());
 
-        JwtTokenFilter jwtTokenFilter = postProcess(authFilter);
-        http.addFilterBefore(jwtTokenFilter, LogoutFilter.class);
+        JwtVerifyFilter jwtVerifyFilter = postProcess(this.jwtVerifyFilter);
+        http.addFilterBefore(jwtVerifyFilter, LogoutFilter.class);
 
     }
 
@@ -38,8 +38,8 @@ public final class JwtLoginConfigurer <H extends HttpSecurityBuilder<H>> extends
      * @date  2020-10-10 09:29
      * @since 1.0.0
     */
-    public JwtLoginConfigurer<H> tokenValidSuccessHandler(AuthenticationSuccessHandler successHandler){
-        authFilter.setAuthenticationSuccessHandler(successHandler);
+    public JwtVerifyConfigurer<H> tokenValidSuccessHandler(AuthenticationSuccessHandler successHandler){
+        jwtVerifyFilter.setAuthenticationSuccessHandler(successHandler);
         return this;
     }
 }

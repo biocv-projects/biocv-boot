@@ -1,4 +1,4 @@
-package com.biocv.boot.autoconfigure.security.config;
+package com.biocv.boot.autoconfigure.security.bean;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +19,7 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
  *
  * @author Ben Alex
  */
-public class JwtAuthenticationToken extends AbstractAuthenticationToken {
+public class JwtTokenAuthentication extends AbstractAuthenticationToken {
 
 	private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
@@ -33,18 +33,6 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 	// ~ Constructors
 	// ===================================================================================================
 
-	/**
-	 * This constructor can be safely used by any code that wishes to create a
-	 * <code>UsernamePasswordAuthenticationToken</code>, as the {@link #isAuthenticated()}
-	 * will return <code>false</code>.
-	 *
-	 */
-	public JwtAuthenticationToken(Object principal, Object credentials) {
-		super(null);
-		this.principal = principal;
-		this.credentials = credentials;
-		setAuthenticated(false);
-	}
 
 	/**
 	 * token构造方法
@@ -56,7 +44,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 	 * @date  2020-09-28 18:28
 	 * @since 1.0.0
 	*/
-	public JwtAuthenticationToken(DecodedJWT token ){
+	public JwtTokenAuthentication(DecodedJWT token ){
 		super(null);
 		this.principal = null;
 		this.token = token;
@@ -72,7 +60,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 	 * @param credentials
 	 * @param authorities
 	 */
-	public JwtAuthenticationToken(Object principal, Object credentials,
+	public JwtTokenAuthentication(Object principal, Object credentials,
 								  Collection<? extends GrantedAuthority> authorities) {
 		super(authorities);
 		this.principal = principal;
@@ -80,7 +68,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 		super.setAuthenticated(true); // must use super, as we override
 	}
 
-	public JwtAuthenticationToken(Object principal, Object credentials, DecodedJWT token, Collection<? extends GrantedAuthority> authorities){
+	public JwtTokenAuthentication(Object principal, Object credentials, DecodedJWT token, Collection<? extends GrantedAuthority> authorities){
 		super(authorities);
 		this.principal = principal;
 		this.credentials = credentials;
@@ -91,14 +79,17 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 	// ~ Methods
 	// ========================================================================================================
 
+	@Override
 	public Object getCredentials() {
 		return this.credentials;
 	}
 
+	@Override
 	public Object getPrincipal() {
 		return this.principal;
 	}
 
+	@Override
 	public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
 		if (isAuthenticated) {
 			throw new IllegalArgumentException(
@@ -117,4 +108,5 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 		super.eraseCredentials();
 		credentials = null;
 	}
+
 }

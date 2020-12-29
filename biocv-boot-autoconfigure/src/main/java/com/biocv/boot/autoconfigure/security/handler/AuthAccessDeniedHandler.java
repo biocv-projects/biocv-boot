@@ -19,8 +19,8 @@ import java.io.IOException;
  * @author kai
  * @date 2020/10/24 13:40
  */
-//@Component
-public class BioCVAccessDeniedHandler implements AccessDeniedHandler {
+@Deprecated
+public class AuthAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
