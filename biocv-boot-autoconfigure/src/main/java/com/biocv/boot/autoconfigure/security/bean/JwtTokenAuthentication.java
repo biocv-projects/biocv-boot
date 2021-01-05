@@ -1,12 +1,11 @@
 package com.biocv.boot.autoconfigure.security.bean;
 
-import java.util.Collection;
-import java.util.List;
-
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
+
+import java.util.Collection;
 
 /**
  * An {@link org.springframework.security.core.Authentication} implementation that is

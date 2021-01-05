@@ -3,7 +3,6 @@ package com.biocv.boot.autoconfigure.security.handler;
 import com.alibaba.fastjson.JSONObject;
 import com.biocv.boot.web.BioCVResult;
 import com.biocv.boot.web.ResultCode;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
