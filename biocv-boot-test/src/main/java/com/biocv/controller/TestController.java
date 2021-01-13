@@ -1,4 +1,4 @@
-package com.biocv.test.controller;
+package com.biocv.controller;
 
 import com.biocv.boot.autoconfigure.logging.DbLog;
 import com.biocv.boot.exception.BasicException;

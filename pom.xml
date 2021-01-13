@@ -15,6 +15,7 @@
         <module>biocv-boot-parent</module>
         <module>biocv-boot</module>
         <module>biocv-boot-test</module>
+        <module>biocv-boot-business</module>
     </modules>
 
 
