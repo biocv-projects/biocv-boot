@@ -13,6 +13,7 @@
     <properties>
         <spring.boot.version>2.3.4.RELEASE</spring.boot.version>
         <orika.version>1.4.2</orika.version>
+        <swagger.version>3.0.0</swagger.version>
     </properties>
 
     <dependencyManagement>
@@ -67,6 +68,14 @@
                 <artifactId>orika-core</artifactId>
                 <version>${orika.version}</version>
             </dependency>
+
+            <!--swagger文档生成-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

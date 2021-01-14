@@ -2,12 +2,20 @@ package com.biocv.boot.vis.staff.service.impl;
 
 import com.biocv.boot.Pager;
 import com.biocv.boot.pojo.BaseBo;
-import com.biocv.boot.vis.staff.service.StaffService;
+import com.biocv.boot.vis.staff.bo.StaffBo;
 import com.biocv.boot.vis.staff.dao.StaffDao;
+import com.biocv.boot.vis.staff.model.Staff;
+import com.biocv.boot.vis.staff.service.StaffService;
+import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * staff service实现
@@ -25,16 +33,31 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public Pager getPagerByCondition(BaseBo condition, int pageIndex, int pageSize) {
-//        MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-//        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-//        Page<Staff> page = staffDao.findByPage(condition, pageIndex, pageSize);
-//        Pager pager = new Pager();
-//        pager.setPageIndex(pageIndex);
-//        pager.setPageSize(page.getTotalPages());
-//        pager.setPageSize(page.getSize());
-//        List<StaffBo> staffBos = mapperFacade.mapAsList(page.getContent(), StaffBo.class);
-//        pager.setData(page.getContent());
-//        return pager;
-        return null;
+        MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+        mapperFactory.classMap(Staff.class,StaffBo.class).field("name","testName").byDefault().register();
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        Page<Staff> page = staffDao.findByPage(condition, pageIndex, pageSize);
+        Pager pager = new Pager();
+        pager.setPageIndex(pageIndex);
+        pager.setPageSize(page.getTotalPages());
+        pager.setPageSize(page.getSize());
+        List<StaffBo> staffBos = mapperFacade.mapAsList(page.getContent(), StaffBo.class);
+        pager.setData(staffBos);
+        return pager;
     }
+
+    @Override
+    public void save(StaffBo staffBo) {
+        MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+        mapperFactory.classMap(StaffBo.class,Staff.class).field("testName","name").byDefault().register();
+        MapperFacade mapperFacade = mapperFactory.getMapperFacade();
+        Staff staff = mapperFacade.map(staffBo, Staff.class);
+        staffDao.save(staff);
+    }
+
+    @Override
+    public void deleteByIds(String ids) {
+        staffDao.deleteById(ids);
+    }
+
 }

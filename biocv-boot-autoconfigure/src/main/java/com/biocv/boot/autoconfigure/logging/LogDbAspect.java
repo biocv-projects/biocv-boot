@@ -1,5 +1,7 @@
 package com.biocv.boot.autoconfigure.logging;
 
+import com.biocv.boot.autoconfigure.logging.dao.SystemLogDao;
+import com.biocv.boot.autoconfigure.logging.model.SystemLog;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -7,15 +9,11 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -30,9 +28,9 @@ import static com.biocv.boot.autoconfigure.logging.LogAspect.getRequestParams;
  */
 @Aspect
 @Component
-@ConditionalOnBean(DataSource.class)
-@EntityScan(basePackageClasses = SystemLog.class)
-@EnableJpaRepositories(basePackages = "com.biocv.boot.autoconfigure.logging")
+//@ConditionalOnBean(DataSource.class)
+//@EntityScan(basePackageClasses = SystemLog.class)
+//@EnableJpaRepositories(basePackages = "com.biocv.boot.autoconfigure.logging")
 public class LogDbAspect {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LogDbAspect.class);

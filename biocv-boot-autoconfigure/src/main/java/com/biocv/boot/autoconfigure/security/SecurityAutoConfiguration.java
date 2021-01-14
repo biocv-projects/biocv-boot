@@ -1,5 +1,6 @@
 package com.biocv.boot.autoconfigure.security;
 
+import com.biocv.boot.autoconfigure.auth.AuthDataInit;
 import com.biocv.boot.autoconfigure.security.config.AuthenticationConfigurer;
 import com.biocv.boot.autoconfigure.security.config.JwtVerifyConfigurer;
 import com.biocv.boot.autoconfigure.security.handler.AuthenticateSuccessHandler;
@@ -8,6 +9,7 @@ import com.biocv.boot.autoconfigure.security.handler.JwtVerifySuccessHandler;
 import com.biocv.boot.autoconfigure.security.provider.JwtTokenAuthenticationProvider;
 import com.biocv.boot.autoconfigure.security.service.JwtUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -30,14 +32,13 @@ import java.util.Arrays;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Import({
         Authentication403EntryPoint.class,
-//        BioCVAccessDeniedHandler.class,
         JwtVerifySuccessHandler.class,
         AuthenticateSuccessHandler.class,
         JwtTokenAuthenticationProvider.class,
         JwtUserService.class
-//        LoginController.class
 })
 @ConditionalOnClass({AuthenticationManager.class })
+@ConditionalOnBean(AuthDataInit.class)
 public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -49,20 +50,15 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtUserService jwtUserService;
 
-    @Autowired
-    private JwtTokenAuthenticationProvider jwtTokenAuthenticationProvider;
-
-    @Autowired
-    private Authentication403EntryPoint authentication403EntryPoint;
-
-//    @Autowired
-//    private BioCVAccessDeniedHandler bioCVAccessDeniedHandler;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //所有请求都要认证
         http = http.authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/login").permitAll()
+                .antMatchers(HttpMethod.GET,"/swagger**/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/webjars/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/v3/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/doc.html").permitAll()
                 .anyRequest().authenticated()
                 .and();
 
@@ -105,34 +101,5 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
                 .and();
 
     }
-
-    /**
-     * 配置provider
-     *
-     * @param auth
-     * @return void
-     * @author Tyler.feng@zkteco.com
-     * @throws
-     * @date  2020-10-10 11:28
-     * @since 1.0.0
-    */
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-////        auth.authenticationProvider(daoAuthenticationProvider())
-//                auth.authenticationProvider(jwtTokenAuthenticationProvider);
-//    }
-
-//    @Bean
-//    public AuthenticationProvider daoAuthenticationProvider(){
-//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-//        authenticationProvider.setUserDetailsService(jwtUserService);
-//        return authenticationProvider;
-//    }
-
-//    @Override
-//    @Bean
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
-//    }
 
 }

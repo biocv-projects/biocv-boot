@@ -15,8 +15,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableBiocvWeb
 //@ComponentScans({@ComponentScan(basePackages = "com.biocv")})
-@EnableJpaRepositories(basePackages = "com.biocv")
-@EntityScan(basePackages = "com.biocv")
+//@EnableJpaRepositories(basePackages = "com.biocv")
+//@EntityScan(basePackages = "com.biocv")
 public class TestWebApp {
 
     public static void main(String[] args) {

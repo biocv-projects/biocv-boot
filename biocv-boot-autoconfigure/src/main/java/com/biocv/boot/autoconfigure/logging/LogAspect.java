@@ -28,7 +28,7 @@ public class LogAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(LogAspect.class);
 
 //    @Pointcut("execution(* your_package.controller..*(..))")
-    @Pointcut("execution(* com.biocv.*.controller..*.*(..))")
+    @Pointcut("execution(* com.biocv..*.controller..*.*(..))")
     private void requestServer() {
     }
 

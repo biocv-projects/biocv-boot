@@ -1,11 +1,12 @@
 package com.biocv.boot.autoconfigure.security.userDetails;
 
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 用户
@@ -30,7 +31,7 @@ public class UserInfo implements UserDetails {
     /**
      * 角色字符串列表
      */
-    private HashSet<String> roleSet;
+    private Set<String> roleSet;
 
     /**
      * 权限列表
@@ -57,10 +58,17 @@ public class UserInfo implements UserDetails {
     private boolean enabled = true;
 
     /**
+     * 是否root 用户
+     */
+    @Setter
+    @Getter
+    private boolean isRoot;
+
+    /**
      * Getter
      * @return
      */
-    public HashSet<String> getRoleSet() {
+    public Set<String> getRoleSet() {
         return roleSet;
     }
 
@@ -68,7 +76,7 @@ public class UserInfo implements UserDetails {
      * Setter
      * @param roleSet
      */
-    public void setRoleSet(HashSet<String> roleSet) {
+    public void setRoleSet(Set<String> roleSet) {
         this.roleSet = roleSet;
     }
 

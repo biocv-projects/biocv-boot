@@ -2,6 +2,7 @@ package com.biocv.boot.autoconfigure.auth.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -21,9 +22,10 @@ import java.util.UUID;
 public class AuthUser {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "ID", length = 50, nullable = false)
-    private UUID id;
+    private String id;
 
     /**
      * 姓名
@@ -34,7 +36,7 @@ public class AuthUser {
     /**
      * 账户名
      */
-    @Column(name = "USER_NAME")
+    @Column(name = "USER_NAME",unique = true)
     private String userName;
 
     /**
@@ -52,7 +54,7 @@ public class AuthUser {
     /**
      * 维护角色列表关系
      */
-    @ManyToMany(targetEntity = AuthRole.class)
+    @ManyToMany(targetEntity = AuthRole.class,fetch = FetchType.EAGER)
     @JoinTable(name = "AUTH_USER_ROLE",joinColumns = {@JoinColumn(name = "AUTH_USER_ID",referencedColumnName = "ID")},
                inverseJoinColumns = {@JoinColumn(name = "AUTH_ROLE_ID",referencedColumnName = "ID")})
     private Set<AuthRole> authRoleSet;

@@ -1,16 +1,10 @@
 package com.biocv.boot.vis.staff.bo;
 
-import com.biocv.boot.data.MatchType;
 import com.biocv.boot.data.QueryCondition;
 import com.biocv.boot.pojo.BaseBo;
 import lombok.Data;
-import org.springframework.data.jpa.repository.Query;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.UUID;
 
 /**
  * 员工业务对象
@@ -25,31 +19,31 @@ public class StaffBo extends BaseBo implements Serializable {
     /**
      * id
      */
-    @QueryCondition(column = "ID")
+    @QueryCondition(column = "id")
     private String id;
 
     /**
      * 名字
      */
-    @QueryCondition(column = "NAME")
-    private String name;
+    @QueryCondition(column = "name")
+    private String testName;
 
     /**
      * 姓氏
      */
-    @QueryCondition(column = "LAST_NAME")
+    @QueryCondition(column = "lastName")
     private String lastName;
 
     /**
      * 邮箱
      */
-    @QueryCondition(column = "EMAIL")
+    @QueryCondition(column = "email")
     private String email;
 
     /**
      * 照片路径
      */
-    @QueryCondition(column = "PHOTO")
+    @QueryCondition(column = "photo")
     private String photo;
 
 }

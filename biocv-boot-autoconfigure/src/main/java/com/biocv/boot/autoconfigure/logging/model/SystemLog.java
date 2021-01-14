@@ -1,4 +1,4 @@
-package com.biocv.boot.autoconfigure.logging;
+package com.biocv.boot.autoconfigure.logging.model;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,5 +1,6 @@
-package com.biocv.boot.autoconfigure.logging;
+package com.biocv.boot.autoconfigure.logging.dao;
 
+import com.biocv.boot.autoconfigure.logging.model.SystemLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 

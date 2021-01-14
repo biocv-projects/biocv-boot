@@ -2,6 +2,7 @@ package com.biocv.boot.vis.staff.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,9 +22,10 @@ import java.util.UUID;
 public class Staff implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "ID", length = 50, nullable = false)
-    private UUID id;
+    private String id;
 
     /**
      * 名字

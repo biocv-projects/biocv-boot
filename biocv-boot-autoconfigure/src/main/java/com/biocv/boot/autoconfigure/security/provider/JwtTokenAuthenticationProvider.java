@@ -6,9 +6,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.biocv.boot.autoconfigure.auth.dao.AuthPermissionRepository;
+import com.biocv.boot.autoconfigure.auth.dao.AuthRoleRepository;
+import com.biocv.boot.autoconfigure.auth.model.AuthPermission;
+import com.biocv.boot.autoconfigure.auth.model.AuthRole;
 import com.biocv.boot.autoconfigure.security.bean.JwtTokenAuthentication;
 import com.biocv.boot.autoconfigure.security.service.JwtUserService;
 import com.biocv.boot.autoconfigure.security.userDetails.UserInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -16,10 +21,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.NonceExpiredException;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * @author kai
@@ -29,6 +31,12 @@ import java.util.HashSet;
 public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
 
     private JwtUserService jwtUserService;
+
+    @Autowired
+    private AuthPermissionRepository authPermissionRepository;
+
+    @Autowired
+    private AuthRoleRepository authRoleRepository;
 
     /**
      * 构造方法
@@ -81,21 +89,44 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
         JSONObject jsonObject = JSONObject.parseObject(subject);
         String userName = jsonObject.getString("userName");
         JSONArray roleSet = jsonObject.getJSONArray("roles");
+
         HashSet<String> roles = new HashSet<>();
         for (int i = 0; i < roleSet.size(); i ++){
             String roleStr = roleSet.getString(i);
             roles.add(roleStr);
         }
 
+
         //TODO 这里应该是根据角色查出来的权限列表
         Collection<UserInfo.Autoriztion> autoriztions = new ArrayList<>();
-        UserInfo.Autoriztion autoriztion = new UserInfo.Autoriztion();
-        autoriztion.setAuthorizition("auth:user:query");
-        autoriztions.add(autoriztion);
+        for (String roleCode : roles){
+            AuthRole authRole = authRoleRepository.findByCode(roleCode);
+            if (authRole != null){
+                Set<AuthPermission> authPermissionSet = authRole.getAuthPermissionSet();
+                for (AuthPermission authPermission: authPermissionSet){
+                    String authorizationCode = authPermission.getCode();
+                    UserInfo.Autoriztion autoriztion = new UserInfo.Autoriztion();
+                    autoriztion.setAuthorizition(authorizationCode);
+                    autoriztions.add(autoriztion);
+                }
+            }
+        }
+
+        //超级用户,添加上所有的权限.
+        if (jsonObject.getBoolean("isRoot")){
+            List<AuthPermission> authPermissions = authPermissionRepository.findAll();
+            for (AuthPermission authPermission : authPermissions){
+                String authorizationCode = authPermission.getCode();
+                UserInfo.Autoriztion autoriztion = new UserInfo.Autoriztion();
+                autoriztion.setAuthorizition(authorizationCode);
+                autoriztions.add(autoriztion);
+            }
+        }
 
         UserInfo userInfo = new UserInfo();
         userInfo.setUserName(userName);
-        userInfo.setRoleSet(roles);
+//        userInfo.setRoleSet(roles);
+        userInfo.setAuthorities(autoriztions);
         JwtTokenAuthentication jwtTokenAuthentication = new JwtTokenAuthentication(userInfo, null, token,autoriztions);
         return jwtTokenAuthentication;
 
