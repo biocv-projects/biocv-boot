@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -28,25 +29,67 @@ public class Staff implements Serializable {
     private String id;
 
     /**
+     * 工号
+     */
+    @Column(name = "PIN")
+    private String pin;
+
+    /**
+     * 证件号
+     */
+    @Column(name = "IDENTITY_NUMBER")
+    private String identityNumber;
+
+    /**
      * 名字
      */
     @Column(name = "NAME")
     private String name;
 
     /**
-     * 姓氏
+     * 国籍
      */
-    @Column(name = "LAST_NAME")
-    private String lastName;
+    @Column(name = "nation")
+    private String nation;
 
     /**
-     * 邮箱
+     * 性别
      */
-    @Column(name = "EMAIL")
-    private String email;
+    @Column(name = "SEX")
+    private short sex;
+
+    /**
+     * 生日
+     */
+    @Column(name = "BIRTH")
+    private String birth;
+
+    /**
+     * 地址
+     */
+    @Column(name = "ADDRESS")
+    private String address;
 
     /**
      * 照片路径
+     */
+    @Column(name = "CARD")
+    private String card;
+
+    /**
+     * 电话
+     */
+    @Column(name = "PHONE")
+    private String phone;
+
+    /**
+     * 证件照
+     */
+    @Column(name = "IDENTITY_PHOTO")
+    private String identityPhoto;
+
+    /**
+     * 比对照片
      */
     @Column(name = "PHOTO")
     private String photo;

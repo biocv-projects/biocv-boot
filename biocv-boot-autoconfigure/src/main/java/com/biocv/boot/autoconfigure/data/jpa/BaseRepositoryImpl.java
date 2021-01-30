@@ -36,7 +36,7 @@ public class BaseRepositoryImpl<T , ID>  extends SimpleJpaRepository<T, ID> impl
 
     @Override
     public Page<T> findByPage(BaseBo condition, int pageIndex, int pageSize) {
-        return findAll(toSpecWithLogicType(condition,"and"), toPageable(0,pageSize));
+        return findAll(toSpecWithLogicType(condition,"and"), toPageable(pageIndex,pageSize));
     }
 
     //JPA分页查询类,带排序条件

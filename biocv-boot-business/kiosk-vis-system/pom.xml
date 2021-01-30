@@ -16,6 +16,14 @@
             <groupId>com.biocv.boot</groupId>
             <artifactId>biocv-boot-starter-web</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.biocv.boot</groupId>
+            <artifactId>publicEvent</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+
     </dependencies>
 
 

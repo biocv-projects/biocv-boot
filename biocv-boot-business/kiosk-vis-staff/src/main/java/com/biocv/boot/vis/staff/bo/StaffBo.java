@@ -1,9 +1,15 @@
 package com.biocv.boot.vis.staff.bo;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.biocv.boot.data.QueryCondition;
 import com.biocv.boot.pojo.BaseBo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
@@ -16,32 +22,73 @@ import java.io.Serializable;
 @Data
 public class StaffBo extends BaseBo implements Serializable {
 
-    /**
-     * id
-     */
-    @QueryCondition(column = "id")
+   @QueryCondition(column = "id")
     private String id;
+
+    /**
+     * 工号
+     */
+    @QueryCondition(column = "pin")
+    private String pin;
+
+    /**
+     * 证件号
+     */
+    @QueryCondition(column = "identityNumber")
+    private String identityNumber;
 
     /**
      * 名字
      */
     @QueryCondition(column = "name")
-    private String testName;
+    private String name;
 
     /**
-     * 姓氏
+     * 国籍
      */
-    @QueryCondition(column = "lastName")
-    private String lastName;
+    @QueryCondition(column = "nation")
+    private String nation;
 
     /**
-     * 邮箱
+     * 性别
      */
-    @QueryCondition(column = "email")
-    private String email;
+    @QueryCondition(column = "sex")
+    private short sex;
+
+    /**
+     * 生日
+     */
+    @QueryCondition(column = "birth")
+    private String birth;
+
+    /**
+     * 地址
+     */
+    @QueryCondition(column = "address")
+    private String address;
 
     /**
      * 照片路径
+     */
+    @QueryCondition(column = "card")
+    private String card;
+
+    /**
+     * 电话
+     */
+    @QueryCondition(column = "phone")
+    private String phone;
+
+    /**
+     * 证件照
+     */
+    @QueryCondition(column = "identityPhoto")
+    @JSONField(name = "identity_photo")
+    @JsonProperty("identity_photo")
+    private String identityPhoto;
+
+    /**
+     * 比对照片
      */
     @QueryCondition(column = "photo")
     private String photo;

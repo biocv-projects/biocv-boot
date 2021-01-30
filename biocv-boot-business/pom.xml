@@ -15,6 +15,10 @@
     <modules>
         <module>kiosk-vis-system</module>
         <module>kiosk-vis-staff</module>
+        <module>publicEvent</module>
+        <module>glasses-cmd</module>
+        <module>glasses-device</module>
+        <module>protocol-netty</module>
     </modules>
 
 

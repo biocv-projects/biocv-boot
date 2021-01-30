@@ -31,6 +31,11 @@ public class Pager implements Serializable {
     private int totalPage;
 
     /**
+     * 总数据量
+     */
+    private long total;
+
+    /**
      * 数据
      */
     private List<?> data;

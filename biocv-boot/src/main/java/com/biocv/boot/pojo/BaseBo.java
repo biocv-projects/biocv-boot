@@ -7,4 +7,24 @@ package com.biocv.boot.pojo;
  * @date 2020/12/18 16:47
  */
 public class BaseBo {
+
+    private int pageSize;
+
+    private int pageIndex;
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getPageIndex() {
+        return pageIndex;
+    }
+
+    public void setPageIndex(int pageIndex) {
+        this.pageIndex = pageIndex;
+    }
 }
