@@ -2,8 +2,8 @@ package com.biocv.boot.protocol.provider;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.zkteco.zkbiosecurity.ResultBean;
-import com.zkteco.zkbiosecurity.params.Users;
+import com.biocv.boot.protocol.ResultBean;
+import com.biocv.boot.protocol.params.Users;
 import io.netty.channel.ChannelHandlerContext;
 
 /**

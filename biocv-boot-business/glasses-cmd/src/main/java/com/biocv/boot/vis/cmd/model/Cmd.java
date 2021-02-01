@@ -28,7 +28,7 @@ public class Cmd {
     /**
      * 请求字符串
      */
-    @Column(name = "REQUEST_STR")
+    @Column(name = "REQUEST_STR",length = 5000)
     private String requestStr;
 
     /**

@@ -2,7 +2,11 @@ package com.biocv.boot.protocol.provider;
 
 import com.alibaba.fastjson.JSONObject;
 import com.biocv.boot.protocol.sender.*;
+import com.biocv.protocol.CmdEvent;
 import io.netty.channel.ChannelHandlerContext;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +18,10 @@ import java.util.List;
  * @date 2021-01-18 15:11
  * @since 1.0.0
  */
-public class ProviderManager {
+@Component
+public class ProviderManager implements ApplicationEventPublisherAware {
+
+    private ApplicationEventPublisher publisher;
 
     private List<ProtocolProvider> providers ;
 
@@ -50,6 +57,9 @@ public class ProviderManager {
      * @since 1.0.0
      */
     public void process(ChannelHandlerContext ctx, JSONObject jsonObject) throws InterruptedException {
+        //1.发布命令到来事件
+        publisher.publishEvent(new CmdEvent(this,jsonObject.toJSONString()));
+        //2.开始处理
         for (ProtocolProvider provider : providers){
             if (!provider.supports(jsonObject)){
                 continue;
@@ -59,4 +69,8 @@ public class ProviderManager {
         Thread.sleep(2000);
     }
 
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        this.publisher = applicationEventPublisher;
+    }
 }

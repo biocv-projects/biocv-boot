@@ -6,10 +6,12 @@ import com.biocv.boot.vis.cmd.bo.CmdBo;
 import com.biocv.boot.vis.cmd.dao.CmdDao;
 import com.biocv.boot.vis.cmd.model.Cmd;
 import com.biocv.boot.vis.cmd.service.CmdService;
+import com.biocv.protocol.CmdEvent;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class CmdServiceImpl implements CmdService {
+public class CmdServiceImpl implements CmdService, ApplicationListener<CmdEvent> {
 
     @Autowired
     private CmdDao cmdDao;
@@ -51,12 +53,24 @@ public class CmdServiceImpl implements CmdService {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         mapperFactory.classMap(CmdBo.class,Cmd.class).byDefault().register();
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        Cmd staff = mapperFacade.map(CmdBo.class, Cmd.class);
+        Cmd staff = mapperFacade.map(cmdBo, Cmd.class);
         cmdDao.save(staff);
     }
 
     @Override
     public void deleteByIds(String ids) {
         cmdDao.deleteById(ids);
+    }
+
+    /**
+     * 处理设备上传命令
+     */
+    @Override
+    public void onApplicationEvent(CmdEvent event) {
+        CmdBo cmdBo = new CmdBo();
+        cmdBo.setRequestStr(event.getContent());
+        cmdBo.setRequestTime(System.currentTimeMillis());
+        //保存
+        this.save(cmdBo);
     }
 }

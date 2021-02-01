@@ -2,7 +2,7 @@ package com.biocv.boot.protocol.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.zkteco.zkbiosecurity.ResultBean;
+import com.biocv.boot.protocol.ResultBean;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;

@@ -1,20 +1,19 @@
 package com.biocv.protocol;
 
+import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * 心跳事件
+ * 命令事件
  *
  * @author Tyler.Feng
- * @date 2021-02-01 10:47
+ * @date 2021-02-01 11:14
  * @since 1.0.0
  */
-public class HeartBeatEvent extends ApplicationEvent {
+@Getter
+public class CmdEvent extends ApplicationEvent {
 
-    /**
-     * SN
-     */
-    private final String sn;
+    private final String content;
 
     /**
      * Create a new {@code ApplicationEvent}.
@@ -22,8 +21,8 @@ public class HeartBeatEvent extends ApplicationEvent {
      * @param source the object on which the event initially occurred or with
      *               which the event is associated (never {@code null})
      */
-    public HeartBeatEvent(Object source, String sn) {
+    public CmdEvent(Object source, String content) {
         super(source);
-        this.sn = sn;
+        this.content = content;
     }
 }

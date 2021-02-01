@@ -3,9 +3,15 @@ package com.biocv.boot.protocol.provider;
 import com.alibaba.fastjson.JSONObject;
 import com.biocv.boot.protocol.ResultBean;
 import com.biocv.boot.protocol.response.HeartbeatResponse;
+import com.biocv.protocol.HeartBeatEvent;
 import io.netty.channel.ChannelHandlerContext;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 
-public class HeartbeatProvider implements ProtocolProvider{
+public class HeartbeatProvider implements ProtocolProvider, ApplicationEventPublisherAware {
+
+    private ApplicationEventPublisher publisher;
+
     @Override
     public void process(ChannelHandlerContext ctx, JSONObject jsonObject) {
         //json转 user bean
@@ -13,6 +19,9 @@ public class HeartbeatProvider implements ProtocolProvider{
         JSONObject params = payload.getJSONObject("params");
 
         System.out.println("接受到心跳"  + params.getString("sn"));
+
+        //发布事件
+        publisher.publishEvent(new HeartBeatEvent(this,params.getString("sn")));
 
         HeartbeatResponse heartbeatResponse = new HeartbeatResponse();
         heartbeatResponse.setCommand(0);
@@ -30,5 +39,10 @@ public class HeartbeatProvider implements ProtocolProvider{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        this.publisher = publisher;
     }
 }

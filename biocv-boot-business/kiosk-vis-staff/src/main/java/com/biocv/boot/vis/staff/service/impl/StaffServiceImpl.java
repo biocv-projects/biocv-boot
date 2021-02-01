@@ -6,13 +6,17 @@ import com.biocv.boot.vis.staff.bo.StaffBo;
 import com.biocv.boot.vis.staff.dao.StaffDao;
 import com.biocv.boot.vis.staff.model.Staff;
 import com.biocv.boot.vis.staff.service.StaffService;
+import com.biocv.protocol.UploadUserEvent;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.context.ApplicationListener;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +32,8 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class StaffServiceImpl implements StaffService, ApplicationEventPublisherAware {
+public class StaffServiceImpl implements StaffService, ApplicationListener<UploadUserEvent> {
 
-    private ApplicationEventPublisher publisher;
 
     @Autowired
     private StaffDao staffDao;
@@ -65,10 +68,13 @@ public class StaffServiceImpl implements StaffService, ApplicationEventPublisher
         staffDao.deleteById(ids);
     }
 
+    /**
+     * 自动保存设备上传的人员
+     */
     @Override
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-        this.publisher = applicationEventPublisher;
+    public void onApplicationEvent(UploadUserEvent event) {
+        StaffBo staffBo = new StaffBo();
+        BeanUtils.copyProperties(event,staffBo);
+        this.save(staffBo);
     }
-
-
 }
