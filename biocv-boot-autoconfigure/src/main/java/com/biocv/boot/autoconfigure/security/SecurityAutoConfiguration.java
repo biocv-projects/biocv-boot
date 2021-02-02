@@ -24,6 +24,8 @@ import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 import java.util.Arrays;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 /**
  * @author kai
  * @date 2020/9/28 16:00
@@ -82,7 +84,8 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
         http = http.csrf().disable();
 
         //禁用cors
-        http = http.cors().disable();
+        //使用springmvc的cors
+        http = http.cors(withDefaults());
 
         //禁用匿名访问
 //        http = http.anonymous().disable();
