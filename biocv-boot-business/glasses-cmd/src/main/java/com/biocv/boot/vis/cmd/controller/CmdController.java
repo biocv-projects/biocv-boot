@@ -23,8 +23,9 @@ public class CmdController extends BaseController {
     @Autowired
     private CmdService cmdService;
 
-    @PreAuthorize("hasAuthority('cmd:api:list')")
+//    @PreAuthorize("hasAuthority('cmd:api:list')")
     @PostMapping("/list")
+    @CrossOrigin
 //    @DbLog
     public Pager list(@RequestBody(required = false) CmdBo condition){
         if (condition == null){
@@ -44,10 +45,15 @@ public class CmdController extends BaseController {
 
     @PreAuthorize("hasAuthority('cmd:api:delete')")
     @DeleteMapping("/delete")
-    @CrossOrigin
     public BioCVResult delete(String id){
         cmdService.deleteByIds(id);
         return BioCVResult.success(id);
+    }
+
+    @DeleteMapping("/clear")
+    public BioCVResult clear(){
+        cmdService.clear();
+        return BioCVResult.success();
     }
 
 }

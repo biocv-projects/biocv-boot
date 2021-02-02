@@ -1,5 +1,7 @@
 package com.biocv.boot.vis.cmd.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.biocv.boot.Pager;
 import com.biocv.boot.pojo.BaseBo;
 import com.biocv.boot.vis.cmd.bo.CmdBo;
@@ -35,7 +37,7 @@ public class CmdServiceImpl implements CmdService, ApplicationListener<CmdEvent>
     @Override
     public Pager getPagerByCondition(BaseBo condition, int pageIndex, int pageSize) {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-        mapperFactory.classMap(Cmd.class,CmdBo.class).byDefault().register();
+        mapperFactory.classMap(Cmd.class, CmdBo.class).byDefault().register();
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
         Page<Cmd> page = cmdDao.findByPage(condition, pageIndex, pageSize);
         Pager pager = new Pager();
@@ -62,12 +64,29 @@ public class CmdServiceImpl implements CmdService, ApplicationListener<CmdEvent>
         cmdDao.deleteById(ids);
     }
 
+    @Override
+    public void clear() {
+        cmdDao.deleteAll();
+    }
+
     /**
      * 处理设备上传命令
      */
     @Override
     public void onApplicationEvent(CmdEvent event) {
         CmdBo cmdBo = new CmdBo();
+        String content = event.getContent();
+        JSONObject jsonObject = JSON.parseObject(content);
+        JSONObject payload = jsonObject.getJSONObject("payload");
+        if (payload != null){
+            JSONObject params = payload.getJSONObject("params");
+            if (params!= null ){
+                String sn = params.getString("sn");
+                cmdBo.setSn(sn);
+            }
+        }
+        String funcId = jsonObject.getString("funcId");
+        cmdBo.setFuncId(funcId);
         cmdBo.setRequestStr(event.getContent());
         cmdBo.setRequestTime(System.currentTimeMillis());
         //保存

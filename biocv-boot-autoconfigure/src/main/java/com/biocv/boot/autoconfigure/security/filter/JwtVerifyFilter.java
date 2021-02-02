@@ -32,7 +32,7 @@ public class JwtVerifyFilter extends OncePerRequestFilter {
     private AuthenticationManager authenticationManager;
 
     //匹配的请求
-    private RequestMatcher requiresAuthenticationRequestMatcher;
+    private final RequestMatcher requiresAuthenticationRequestMatcher;
 
     //成功的处理器
     private AuthenticationSuccessHandler successHandler;

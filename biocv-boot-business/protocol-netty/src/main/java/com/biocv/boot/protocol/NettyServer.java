@@ -12,6 +12,7 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.security.Provider;
@@ -31,6 +32,22 @@ public class NettyServer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    startNetty();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
+    }
+
+    private void startNetty() throws InterruptedException {
         EventLoopGroup boosGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 

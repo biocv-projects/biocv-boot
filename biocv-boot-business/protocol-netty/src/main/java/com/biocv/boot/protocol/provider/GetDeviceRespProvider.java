@@ -26,9 +26,6 @@ public class GetDeviceRespProvider implements ProtocolProvider {
     @Override
     public boolean supports(JSONObject jsonObject) {
         String funcId = jsonObject.getString("funcId");
-        if ("device.option.upload".equals(funcId)){
-            return true;
-        }
-        return false;
+        return "device.option.upload".equals(funcId);
     }
 }

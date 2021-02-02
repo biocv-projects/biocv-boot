@@ -1,6 +1,5 @@
 package com.biocv.boot.autoconfigure.security;
 
-import com.biocv.boot.autoconfigure.auth.AuthDataInit;
 import com.biocv.boot.autoconfigure.security.config.AuthenticationConfigurer;
 import com.biocv.boot.autoconfigure.security.config.JwtVerifyConfigurer;
 import com.biocv.boot.autoconfigure.security.handler.AuthenticateSuccessHandler;
@@ -8,6 +7,7 @@ import com.biocv.boot.autoconfigure.security.handler.Authentication403EntryPoint
 import com.biocv.boot.autoconfigure.security.handler.JwtVerifySuccessHandler;
 import com.biocv.boot.autoconfigure.security.provider.JwtTokenAuthenticationProvider;
 import com.biocv.boot.autoconfigure.security.service.JwtUserService;
+import com.biocv.boot.autoconfigure.security.support.UserSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -29,6 +29,7 @@ import java.util.Arrays;
  * @date 2020/9/28 16:00
  */
 @Configuration
+//TODO 这个怎么动态生效？需要实现如果没有UserSupport 整个 spring security都不生效的效果
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Import({
         Authentication403EntryPoint.class,
@@ -38,7 +39,8 @@ import java.util.Arrays;
         JwtUserService.class
 })
 @ConditionalOnClass({AuthenticationManager.class })
-@ConditionalOnBean(AuthDataInit.class)
+//有实现才加载这个配置
+@ConditionalOnBean(UserSupport.class)
 public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -78,6 +80,9 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
 
         //禁用csrf
         http = http.csrf().disable();
+
+        //禁用cors
+        http = http.cors().disable();
 
         //禁用匿名访问
 //        http = http.anonymous().disable();

@@ -41,10 +41,7 @@ public class UserProvider implements ProtocolProvider, ApplicationEventPublisher
     @Override
     public boolean supports(JSONObject jsonObject) {
         String funcId = jsonObject.getString("funcId");
-        if ("device.upload.user".equals(funcId)){
-            return true;
-        }
-        return false;
+        return "device.upload.user".equals(funcId);
     }
 
     @Override

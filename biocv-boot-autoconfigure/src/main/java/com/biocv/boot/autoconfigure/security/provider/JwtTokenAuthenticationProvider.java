@@ -6,12 +6,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.biocv.boot.autoconfigure.auth.dao.AuthPermissionRepository;
-import com.biocv.boot.autoconfigure.auth.dao.AuthRoleRepository;
-import com.biocv.boot.autoconfigure.auth.model.AuthPermission;
-import com.biocv.boot.autoconfigure.auth.model.AuthRole;
 import com.biocv.boot.autoconfigure.security.bean.JwtTokenAuthentication;
 import com.biocv.boot.autoconfigure.security.service.JwtUserService;
+import com.biocv.boot.autoconfigure.security.support.AuthorizationSupport;
+import com.biocv.boot.autoconfigure.security.support.RoleSupport;
 import com.biocv.boot.autoconfigure.security.userDetails.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -27,16 +25,15 @@ import java.util.*;
  * @author kai
  * @date 2020/9/28 18:29
  */
-//@Component
 public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
 
-    private JwtUserService jwtUserService;
+    private final JwtUserService jwtUserService;
 
     @Autowired
-    private AuthPermissionRepository authPermissionRepository;
+    private RoleSupport roleSupport;
 
     @Autowired
-    private AuthRoleRepository authRoleRepository;
+    private AuthorizationSupport authorizationSupport;
 
     /**
      * 构造方法
@@ -98,36 +95,48 @@ public class JwtTokenAuthenticationProvider implements AuthenticationProvider {
 
 
         //TODO 这里应该是根据角色查出来的权限列表
-        Collection<UserInfo.Autoriztion> autoriztions = new ArrayList<>();
+        Collection<UserInfo.Authorization> authorizations = new ArrayList<>();
         for (String roleCode : roles){
-            AuthRole authRole = authRoleRepository.findByCode(roleCode);
-            if (authRole != null){
-                Set<AuthPermission> authPermissionSet = authRole.getAuthPermissionSet();
-                for (AuthPermission authPermission: authPermissionSet){
-                    String authorizationCode = authPermission.getCode();
-                    UserInfo.Autoriztion autoriztion = new UserInfo.Autoriztion();
-                    autoriztion.setAuthorizition(authorizationCode);
-                    autoriztions.add(autoriztion);
-                }
+            Set<String> authorizationSet = roleSupport.getAuthorizationSet(roleCode);
+            for (String authorizationCode: authorizationSet){
+                UserInfo.Authorization authorization = new UserInfo.Authorization();
+                authorization.setAuthorization(authorizationCode);
+                authorizations.add(authorization);
             }
+//            AuthRole authRole = authRoleRepository.findByCode(roleCode);
+//            if (authRole != null){
+//                Set<AuthPermission> authPermissionSet = authRole.getAuthPermissionSet();
+//                for (AuthPermission authPermission: authPermissionSet){
+//                    String authorizationCode = authPermission.getCode();
+//                    UserInfo.Autoriztion autoriztion = new UserInfo.Autoriztion();
+//                    autoriztion.setAuthorizition(authorizationCode);
+//                    autoriztions.add(autoriztion);
+//                }
+//            }
         }
 
         //超级用户,添加上所有的权限.
         if (jsonObject.getBoolean("isRoot")){
-            List<AuthPermission> authPermissions = authPermissionRepository.findAll();
-            for (AuthPermission authPermission : authPermissions){
-                String authorizationCode = authPermission.getCode();
-                UserInfo.Autoriztion autoriztion = new UserInfo.Autoriztion();
-                autoriztion.setAuthorizition(authorizationCode);
-                autoriztions.add(autoriztion);
+            Set<String> allAuthorization = authorizationSupport.getAllAuthorization();
+            for (String authorizationCode: allAuthorization){
+                UserInfo.Authorization authorization = new UserInfo.Authorization();
+                authorization.setAuthorization(authorizationCode);
+                authorizations.add(authorization);
             }
+//            List<AuthPermission> authPermissions = authPermissionRepository.findAll();
+//            for (AuthPermission authPermission : authPermissions){
+//                String authorizationCode = authPermission.getCode();
+//                UserInfo.Authorization authorization = new UserInfo.Authorization();
+//                authorization.setAuthorization(authorizationCode);
+//                authorizations.add(authorization);
+//            }
         }
 
         UserInfo userInfo = new UserInfo();
         userInfo.setUserName(userName);
 //        userInfo.setRoleSet(roles);
-        userInfo.setAuthorities(autoriztions);
-        JwtTokenAuthentication jwtTokenAuthentication = new JwtTokenAuthentication(userInfo, null, token,autoriztions);
+        userInfo.setAuthorities(authorizations);
+        JwtTokenAuthentication jwtTokenAuthentication = new JwtTokenAuthentication(userInfo, null, token, authorizations);
         return jwtTokenAuthentication;
 
     }

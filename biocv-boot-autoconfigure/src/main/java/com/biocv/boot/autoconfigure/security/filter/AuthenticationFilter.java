@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 过滤器用来验证用户名和密码,这个类真的有用吗？？？？？？？？
@@ -31,7 +32,7 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
        //从json中获取username和password
-        String body = StreamUtils.copyToString(request.getInputStream(), Charset.forName("UTF-8"));
+        String body = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
         String username = null, password = null;
         if(StringUtils.hasText(body)) {
             JSONObject jsonObj = JSON.parseObject(body);

@@ -51,4 +51,14 @@ public interface CmdService {
      */
     void deleteByIds(String ids);
 
+    /**
+     * 清空命令
+     *
+     * @return void
+     * @author Tyler.feng@zkteco.com
+     * @throws
+     * @date  2021-02-01 15:28
+     * @since 1.0.0
+    */
+    void clear();
 }

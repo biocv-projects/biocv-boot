@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.biocv.boot.protocol.ResultBean;
 import com.biocv.boot.protocol.params.LogParam;
 import io.netty.channel.ChannelHandlerContext;
-import sun.reflect.misc.FieldUtil;
 
 /**
  * 校验记录上传
@@ -32,9 +31,6 @@ public class VerificationProvider  implements ProtocolProvider{
     public boolean supports(JSONObject jsonObject) {
         String funcId = jsonObject.getString("funcId");
 
-        if ("device.upload.checklog".equals(funcId)){
-            return true;
-        }
-        return false;
+        return "device.upload.checklog".equals(funcId);
     }
 }

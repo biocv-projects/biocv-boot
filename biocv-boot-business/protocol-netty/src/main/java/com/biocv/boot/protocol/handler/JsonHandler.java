@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  */
 public class JsonHandler extends SimpleChannelInboundHandler<JSONObject> {
 
-    private ProviderManager providerManager;
+    private final ProviderManager providerManager;
 
     public JsonHandler(ProviderManager providerManager){
         this.providerManager = providerManager;

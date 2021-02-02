@@ -1,7 +1,7 @@
 package com.biocv.boot.autoconfigure.data.jpa;
 
-import com.biocv.boot.pojo.BaseBo;
 import com.biocv.boot.data.QueryCondition;
+import com.biocv.boot.pojo.BaseBo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

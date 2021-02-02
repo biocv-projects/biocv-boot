@@ -20,9 +20,6 @@ public class FinishProvider implements ProtocolProvider {
     @Override
     public boolean supports(JSONObject jsonObject) {
         String funcId = jsonObject.getString("funcId");
-        if ("device.upload.finish".equals(funcId)){
-            return true;
-        }
-        return false;
+        return "device.upload.finish".equals(funcId);
     }
 }

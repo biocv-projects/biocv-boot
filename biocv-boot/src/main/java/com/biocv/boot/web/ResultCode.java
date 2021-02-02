@@ -18,9 +18,9 @@ public enum ResultCode {
     PARAM_IS_INVALID(1001, "Parameter is invalid");
 
 
-    private Integer code;
+    private final Integer code;
 
-    private String message;
+    private final String message;
 
     ResultCode(Integer code, String message){
         this.code = code;

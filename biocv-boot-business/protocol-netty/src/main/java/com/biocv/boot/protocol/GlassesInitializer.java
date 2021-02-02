@@ -23,7 +23,7 @@ import io.netty.util.CharsetUtil;
  */
 public class GlassesInitializer extends ChannelInitializer<SocketChannel> {
 
-    private ProviderManager providerManager;
+    private final ProviderManager providerManager;
 
     public GlassesInitializer(ProviderManager providerManager){
         this.providerManager = providerManager;

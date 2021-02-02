@@ -2,7 +2,7 @@ package com.biocv.boot.vis.device.controller;
 
 import com.biocv.boot.Pager;
 import com.biocv.boot.autoconfigure.BaseController;
-import com.biocv.boot.vis.device.bo.GlassesDeviceBo;
+import com.biocv.boot.vis.device.bo.GlassesDeviceBto;
 import com.biocv.boot.vis.device.service.GlassesDeviceService;
 import com.biocv.boot.web.BioCVResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,9 @@ public class GlassesDeviceController extends BaseController {
     @PreAuthorize("hasAuthority('cmd:api:list')")
     @PostMapping("/list")
 //    @DbLog
-    public Pager list(@RequestBody(required = false) GlassesDeviceBo condition){
+    public Pager list(@RequestBody(required = false) GlassesDeviceBto condition){
         if (condition == null){
-            condition = new GlassesDeviceBo();
+            condition = new GlassesDeviceBto();
         }
 //        Pager pager = cmdService.getPagerByCondition(condition, getPageIndex(), getPageSize());
         Pager pager = glassesDeviceService.getPagerByCondition(condition, condition.getPageIndex() - 1, condition.getPageSize());
@@ -37,7 +37,7 @@ public class GlassesDeviceController extends BaseController {
 
     @PreAuthorize("hasAuthority('cmd:api:save')")
     @PostMapping("/save")
-    public BioCVResult save(@RequestBody GlassesDeviceBo bo){
+    public BioCVResult save(@RequestBody GlassesDeviceBto bo){
         glassesDeviceService.save(bo);
         return BioCVResult.success(bo);
     }

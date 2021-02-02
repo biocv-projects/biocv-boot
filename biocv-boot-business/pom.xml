@@ -19,6 +19,7 @@
         <module>glasses-cmd</module>
         <module>glasses-device</module>
         <module>protocol-netty</module>
+        <module>auth</module>
     </modules>
 
 

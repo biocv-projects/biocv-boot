@@ -25,6 +25,12 @@ public class CmdBo extends BaseBo implements Serializable {
     private String id;
 
     /**
+     * SN
+     */
+    @QueryCondition(column = "sn")
+    private String sn;
+
+    /**
      * func id
      */
     @QueryCondition(column = "funcId")

@@ -20,6 +20,12 @@ public class Cmd {
     private String id;
 
     /**
+     * SN
+     */
+    @Column(name = "SN")
+    private String sn;
+
+    /**
      * func id
      */
     @Column(name = "FUNC_ID")

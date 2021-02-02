@@ -4,6 +4,5 @@ com.biocv.boot.autoconfigure.context.MessageSourceAutoConfiguration,\
 com.biocv.boot.autoconfigure.security.SecurityAutoConfiguration,\
 com.biocv.boot.autoconfigure.logging.LogginAutoConfiguration,\
 com.biocv.boot.autoconfigure.data.jpa.JpaRepositoryConfiguration,\
-com.biocv.boot.autoconfigure.auth.AuthAutoConfiguration,\
 com.biocv.boot.autoconfigure.swagger.SwaggerConfiguration,\
 com.biocv.boot.autoconfigure.orika.OrikaAutoConfiguration\

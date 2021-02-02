@@ -1,15 +1,14 @@
 package com.biocv.boot.pojo;
 
-import lombok.Data;
+
+import com.biocv.boot.Page;
 
 /**
- * Data Transfer Object：返回接口使用。据传输对象，Service或Manager向外传输的对象。
+ * data transfer object：数据传输对象。接收前端传递数据
+ *
  * @author kai
- * @date 2020/12/18 16:41
+ * @date 2020/12/18 16:47
  */
-@Data
-public abstract class BaseDto {
-
-    private String id;
+public abstract class BaseDto extends Page {
 
 }

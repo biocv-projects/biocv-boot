@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
  */
 public class ProxyHandler implements InvocationHandler {
 
-    private Object object;
+    private final Object object;
 
     public ProxyHandler(Object o){
         this.object = o;

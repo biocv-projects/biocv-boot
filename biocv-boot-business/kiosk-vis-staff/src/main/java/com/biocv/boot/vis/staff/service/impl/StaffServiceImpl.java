@@ -2,7 +2,7 @@ package com.biocv.boot.vis.staff.service.impl;
 
 import com.biocv.boot.Pager;
 import com.biocv.boot.pojo.BaseBo;
-import com.biocv.boot.vis.staff.bo.StaffBo;
+import com.biocv.boot.vis.staff.bo.StaffBto;
 import com.biocv.boot.vis.staff.dao.StaffDao;
 import com.biocv.boot.vis.staff.model.Staff;
 import com.biocv.boot.vis.staff.service.StaffService;
@@ -10,12 +10,8 @@ import com.biocv.protocol.UploadUserEvent;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -41,7 +37,7 @@ public class StaffServiceImpl implements StaffService, ApplicationListener<Uploa
     @Override
     public Pager getPagerByCondition(BaseBo condition, int pageIndex, int pageSize) {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-        mapperFactory.classMap(Staff.class,StaffBo.class).byDefault().register();
+        mapperFactory.classMap(Staff.class, StaffBto.class).byDefault().register();
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
         Page<Staff> page = staffDao.findByPage(condition, pageIndex, pageSize);
         Pager pager = new Pager();
@@ -49,15 +45,15 @@ public class StaffServiceImpl implements StaffService, ApplicationListener<Uploa
         pager.setPageSize(page.getTotalPages());
         pager.setPageSize(page.getSize());
         pager.setTotal(page.getTotalElements());
-        List<StaffBo> staffBos = mapperFacade.mapAsList(page.getContent(), StaffBo.class);
+        List<StaffBto> staffBos = mapperFacade.mapAsList(page.getContent(), StaffBto.class);
         pager.setData(staffBos);
         return pager;
     }
 
     @Override
-    public void save(StaffBo staffBo) {
+    public void save(StaffBto staffBo) {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-        mapperFactory.classMap(StaffBo.class,Staff.class).byDefault().register();
+        mapperFactory.classMap(StaffBto.class,Staff.class).byDefault().register();
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
         Staff staff = mapperFacade.map(staffBo, Staff.class);
         staffDao.save(staff);
@@ -73,7 +69,7 @@ public class StaffServiceImpl implements StaffService, ApplicationListener<Uploa
      */
     @Override
     public void onApplicationEvent(UploadUserEvent event) {
-        StaffBo staffBo = new StaffBo();
+        StaffBto staffBo = new StaffBto();
         BeanUtils.copyProperties(event,staffBo);
         this.save(staffBo);
     }

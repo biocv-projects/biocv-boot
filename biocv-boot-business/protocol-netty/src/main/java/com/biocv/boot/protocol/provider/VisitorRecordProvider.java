@@ -30,9 +30,6 @@ public class VisitorRecordProvider  implements ProtocolProvider{
     public boolean supports(JSONObject jsonObject) {
         String funcId = jsonObject.getString("funcId");
 
-        if ("device.upload.visitlog".equals(funcId)){
-            return true;
-        }
-        return false;
+        return "device.upload.visitlog".equals(funcId);
     }
 }

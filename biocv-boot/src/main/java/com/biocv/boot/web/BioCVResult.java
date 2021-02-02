@@ -44,6 +44,19 @@ public class BioCVResult implements Serializable {
     }
 
     /**
+     * 返回默认成功
+     *
+     * @return com.biocv.boot.web.BioCVResult
+     * @author Tyler.feng@zkteco.com
+     * @throws
+     * @date  2021-02-01 15:29
+     * @since 1.0.0
+    */
+    public static BioCVResult success(){
+        return new BioCVResult(ResultCode.SUCCESS,"SUCCESS");
+    }
+
+    /**
      * 失败响应，仅状态
      *
      * @param resultCode

@@ -2,7 +2,7 @@ package com.biocv.boot.vis.device.service;
 
 import com.biocv.boot.Pager;
 import com.biocv.boot.pojo.BaseBo;
-import com.biocv.boot.vis.device.bo.GlassesDeviceBo;
+import com.biocv.boot.vis.device.bo.GlassesDeviceBto;
 
 /**
  * 眼镜设备接口
@@ -37,7 +37,7 @@ public interface GlassesDeviceService {
      * @date  2021-01-13 15:55
      * @since 1.0.0
      */
-    void save(GlassesDeviceBo cmdBo);
+    void save(GlassesDeviceBto cmdBo);
 
     /**
      * 根据id删除

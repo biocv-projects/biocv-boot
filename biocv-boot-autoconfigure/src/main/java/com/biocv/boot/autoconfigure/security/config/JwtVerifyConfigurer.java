@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
  */
 public final class JwtVerifyConfigurer<H extends HttpSecurityBuilder<H>> extends AbstractHttpConfigurer<JwtVerifyConfigurer<H>, H> {
 
-    private JwtVerifyFilter jwtVerifyFilter = new JwtVerifyFilter();
+    private final JwtVerifyFilter jwtVerifyFilter = new JwtVerifyFilter();
 
     @Override
     public void configure(H http) throws Exception {

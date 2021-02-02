@@ -7,6 +7,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * json对象编码成字节流
  *
@@ -20,6 +22,6 @@ public class JsonEncoder extends MessageToByteEncoder<ResultBean> {
     protected void encode(ChannelHandlerContext ctx, ResultBean msg, ByteBuf out) throws Exception {
         JSONObject jsonObject = JSON.parseObject(JSONObject.toJSON(msg).toString());
         String result = jsonObject.toJSONString();
-        out.writeBytes(result.getBytes("utf-8"));
+        out.writeBytes(result.getBytes(StandardCharsets.UTF_8));
     }
 }

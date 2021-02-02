@@ -23,9 +23,6 @@ public class ClearAllSender implements ProtocolProvider {
 //        JSONObject payload = jsonObject.getJSONObject("payload");
 //        JSONObject params = payload.getJSONObject("params");
 //        Integer command = params.getInteger("command");
-        if (1 == 1){
-            return true;
-        }
-        return false;
+        return 1 == 1;
     }
 }

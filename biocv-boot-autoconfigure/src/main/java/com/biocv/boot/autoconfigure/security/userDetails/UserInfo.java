@@ -37,7 +37,7 @@ public class UserInfo implements UserDetails {
      * 权限列表
      */
     @Setter
-    private Collection<Autoriztion> authorities;
+    private Collection<Authorization> authorities;
 
     /**
      * 是否过期
@@ -118,14 +118,14 @@ public class UserInfo implements UserDetails {
     /**
      * 权限
      */
-    public static class Autoriztion implements GrantedAuthority{
+    public static class Authorization implements GrantedAuthority{
 
         @Setter
-        private String authorizition;
+        private String authorization;
 
         @Override
         public String getAuthority() {
-            return authorizition;
+            return authorization;
         }
     }
 }

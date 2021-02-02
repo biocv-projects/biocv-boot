@@ -4,9 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.biocv.boot.autoconfigure.auth.dao.AuthUserRepository;
-import com.biocv.boot.autoconfigure.auth.model.AuthRole;
-import com.biocv.boot.autoconfigure.auth.model.AuthUser;
+import com.biocv.boot.autoconfigure.security.support.UserSupport;
+import com.biocv.boot.autoconfigure.security.support.IAuthUser;
 import com.biocv.boot.autoconfigure.security.userDetails.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -17,7 +16,6 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -25,10 +23,13 @@ import java.util.Set;
  */
 public class JwtUserService implements UserDetailsService {
 
-    @Autowired
-    private AuthUserRepository authUserRepository;
+//    @Autowired
+//    private AuthUserRepository authUserRepository;
 
-    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserSupport userSupport;
+
+    private final PasswordEncoder passwordEncoder;
 
     public JwtUserService() {
         //默认使用 bcrypt， strength=10
@@ -57,8 +58,10 @@ public class JwtUserService implements UserDetailsService {
         subjectJson.put("isRoot", userInfo.isRoot());
         JSONArray rolesArray = new JSONArray();
         Set<String> roleSet = userInfo.getRoleSet();
-        for (String roleCode : roleSet){
-            rolesArray.add(roleCode);
+        if(roleSet != null){
+            for (String roleCode : roleSet){
+                rolesArray.add(roleCode);
+            }
         }
         subjectJson.put("roles",rolesArray);
         String subject = subjectJson.toJSONString();
@@ -72,19 +75,20 @@ public class JwtUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //TODO 查数据库，找出这个人的信息返回出去
-        AuthUser authUser = authUserRepository.findByUserName(username);
+        IAuthUser authUser = userSupport.getUserByUserName(username);
+//        AuthUser authUser = authUserRepository.findByUserName(username);
 
-        //测试数据
         UserInfo userInfo = new UserInfo();
         userInfo.setUserName(authUser.getUserName());
         userInfo.setPassword("{noop}" + authUser.getPassword());
-        userInfo.setRoot(authUser.getIsRoot());
-        Set<AuthRole> authRoleSet = authUser.getAuthRoleSet();
-        Set<String> roles = new HashSet<>();
-        for (AuthRole authRole : authRoleSet){
-            roles.add(authRole.getCode());
-        }
-        userInfo.setRoleSet(roles);
+        userInfo.setRoot(authUser.isRoot());
+//        Set<AuthRole> authRoleSet = authUser.getAuthRoleSet();
+//        Set<String> roles = new HashSet<>();
+//        for (AuthRole authRole : authRoleSet){
+//            roles.add(authRole.getCode());
+//        }
+        Set<String> roleSet = authUser.getRoleSet();
+        userInfo.setRoleSet(roleSet);
         return userInfo;
 
     }

@@ -1,30 +1,25 @@
 package com.biocv.boot.pojo;
 
+import com.biocv.boot.Page;
+
 /**
  * Business Object：service层使用。业务对象。 由Service层输出的封装业务逻辑的对象。
  *
  * @author kai
  * @date 2020/12/18 16:47
  */
-public class BaseBo {
+public abstract class BaseBo extends Page {
 
-    private int pageSize;
+    /**
+     * id
+     */
+    private String id;
 
-    private int pageIndex;
-
-    public int getPageSize() {
-        return pageSize;
+    public String getId() {
+        return id;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public int getPageIndex() {
-        return pageIndex;
-    }
-
-    public void setPageIndex(int pageIndex) {
-        this.pageIndex = pageIndex;
+    public void setId(String id) {
+        this.id = id;
     }
 }

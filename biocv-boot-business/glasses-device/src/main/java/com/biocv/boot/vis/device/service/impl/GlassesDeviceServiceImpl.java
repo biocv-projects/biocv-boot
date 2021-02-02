@@ -2,7 +2,7 @@ package com.biocv.boot.vis.device.service.impl;
 
 import com.biocv.boot.Pager;
 import com.biocv.boot.pojo.BaseBo;
-import com.biocv.boot.vis.device.bo.GlassesDeviceBo;
+import com.biocv.boot.vis.device.bo.GlassesDeviceBto;
 import com.biocv.boot.vis.device.dao.GlassesDeviceDao;
 import com.biocv.boot.vis.device.model.GlassesDevice;
 import com.biocv.boot.vis.device.service.GlassesDeviceService;
@@ -33,7 +33,7 @@ public class GlassesDeviceServiceImpl implements GlassesDeviceService {
     @Override
     public Pager getPagerByCondition(BaseBo condition, int pageIndex, int pageSize) {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-        mapperFactory.classMap(GlassesDevice.class,GlassesDeviceBo.class).byDefault().register();
+        mapperFactory.classMap(GlassesDevice.class, GlassesDeviceBto.class).byDefault().register();
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
         Page<GlassesDevice> page = glassesDeviceDao.findByPage(condition, pageIndex, pageSize);
         Pager pager = new Pager();
@@ -41,17 +41,17 @@ public class GlassesDeviceServiceImpl implements GlassesDeviceService {
         pager.setPageSize(page.getTotalPages());
         pager.setPageSize(page.getSize());
         pager.setTotal(page.getTotalElements());
-        List<GlassesDeviceBo> staffBos = mapperFacade.mapAsList(page.getContent(), GlassesDeviceBo.class);
+        List<GlassesDeviceBto> staffBos = mapperFacade.mapAsList(page.getContent(), GlassesDeviceBto.class);
         pager.setData(staffBos);
         return pager;
     }
 
     @Override
-    public void save(GlassesDeviceBo cmdBo) {
+    public void save(GlassesDeviceBto cmdBo) {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-        mapperFactory.classMap(GlassesDeviceBo.class,GlassesDevice.class).byDefault().register();
+        mapperFactory.classMap(GlassesDeviceBto.class,GlassesDevice.class).byDefault().register();
         MapperFacade mapperFacade = mapperFactory.getMapperFacade();
-        GlassesDevice staff = mapperFacade.map(GlassesDeviceBo.class, GlassesDevice.class);
+        GlassesDevice staff = mapperFacade.map(GlassesDeviceBto.class, GlassesDevice.class);
         glassesDeviceDao.save(staff);
     }
 

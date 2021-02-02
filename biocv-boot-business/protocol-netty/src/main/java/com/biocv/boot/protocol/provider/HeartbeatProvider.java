@@ -35,10 +35,7 @@ public class HeartbeatProvider implements ProtocolProvider, ApplicationEventPubl
     @Override
     public boolean supports(JSONObject jsonObject) {
         String funcId = jsonObject.getString("funcId");
-        if ("device.upload.heartbeat".equals(funcId)){
-            return true;
-        }
-        return false;
+        return "device.upload.heartbeat".equals(funcId);
     }
 
     @Override

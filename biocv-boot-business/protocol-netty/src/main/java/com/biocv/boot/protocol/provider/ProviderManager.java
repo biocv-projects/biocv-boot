@@ -23,7 +23,7 @@ public class ProviderManager implements ApplicationEventPublisherAware {
 
     private ApplicationEventPublisher publisher;
 
-    private List<ProtocolProvider> providers ;
+    private final List<ProtocolProvider> providers ;
 
     public ProviderManager(){
         providers = new ArrayList<>();
