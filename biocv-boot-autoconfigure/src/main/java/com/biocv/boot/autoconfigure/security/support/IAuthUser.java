@@ -39,7 +39,7 @@ public interface IAuthUser {
      * @date  2021-02-02 09:38
      * @since 1.0.0
     */
-    boolean isRoot();
+    Boolean isRoot();
 
     /**
      * 角色列表

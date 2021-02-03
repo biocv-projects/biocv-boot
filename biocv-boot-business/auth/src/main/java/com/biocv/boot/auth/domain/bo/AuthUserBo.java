@@ -54,7 +54,11 @@ public class AuthUserBo extends BaseBo implements IAuthUser {
     }
 
     @Override
-    public boolean isRoot() {
+    public Boolean isRoot() {
+        return isRoot;
+    }
+
+    public Boolean getIsRoot(){
         return isRoot;
     }
 
@@ -82,11 +86,7 @@ public class AuthUserBo extends BaseBo implements IAuthUser {
         this.password = password;
     }
 
-    public Boolean getRoot() {
-        return isRoot;
-    }
-
-    public void setRoot(Boolean root) {
+    public void setIsRoot(Boolean root) {
         isRoot = root;
     }
 

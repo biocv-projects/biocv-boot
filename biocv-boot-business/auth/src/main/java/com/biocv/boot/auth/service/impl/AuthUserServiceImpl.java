@@ -58,7 +58,7 @@ public class AuthUserServiceImpl implements AuthUserService {
                 .flatMap(authUserRepository::findById)
                 .orElse(new AuthUser());
 
-        authUser.setIsRoot(authUserBo.getRoot());
+        authUser.setIsRoot(authUserBo.getIsRoot());
 
         configurableMapper.map(authUserBo,authUser);
         Set<String> authRoleIds = authUserBo.getAuthRoleIds();
@@ -77,7 +77,7 @@ public class AuthUserServiceImpl implements AuthUserService {
     public AuthUserBo getByUserName(String userName) {
         AuthUser authUser = authUserRepository.findByUserName(userName);
         AuthUserBo authUserBo = configurableMapper.map(authUser, AuthUserBo.class);
-        authUserBo.setRoot(authUser.getIsRoot());
+        authUserBo.setIsRoot(authUser.getIsRoot());
         return authUserBo;
     }
 }

@@ -1,5 +1,6 @@
 package com.biocv.boot.auth.service;
 
+import com.biocv.boot.Pager;
 import com.biocv.boot.auth.domain.bo.AuthPermissionBo;
 import com.biocv.boot.auth.domain.bo.AuthRoleBo;
 
@@ -12,6 +13,18 @@ import java.util.List;
  * @date 2021/2/2 10:21
  */
 public interface AuthRoleService {
+
+    /**
+     * 分页查询
+     *
+     * @param authRoleBo
+     * @return com.biocv.boot.Pager
+     * @author Tyler.feng@zkteco.com
+     * @throws
+     * @date  2021-02-02 17:47
+     * @since 1.0.0
+    */
+    Pager getByPager(AuthRoleBo authRoleBo);
 
     /**
      * 保存
@@ -49,5 +62,29 @@ public interface AuthRoleService {
      * @since 1.0.0
     */
     List<AuthPermissionBo> getPermissionSetByCode(String code);
+
+    /**
+     * get by id
+     *
+     * @param id
+     * @return com.biocv.boot.auth.domain.bo.AuthRoleBo
+     * @author Tyler.feng@zkteco.com
+     * @throws
+     * @date  2021-02-02 15:29
+     * @since 1.0.0
+    */
+    AuthRoleBo getById(String id);
+
+    /**
+     * 条件查询
+     *
+     * @param authRoleBo
+     * @return java.util.List<com.biocv.boot.auth.domain.bo.AuthRoleBo>
+     * @author Tyler.feng@zkteco.com
+     * @throws
+     * @date  2021-02-02 16:44
+     * @since 1.0.0
+    */
+    List<AuthRoleBo> getByCondition(AuthRoleBo authRoleBo);
 
 }

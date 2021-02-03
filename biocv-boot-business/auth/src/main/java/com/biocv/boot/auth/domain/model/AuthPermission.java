@@ -5,7 +5,9 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,7 +38,7 @@ public class AuthPermission {
     /**
      * 权限编码
      */
-    @Column(name = "CODE")
+    @Column(name = "CODE", unique = true,nullable = false)
     private String code;
 
     /**
@@ -74,4 +76,10 @@ public class AuthPermission {
             joinColumns=@JoinColumn(name="AUTH_PERMISSION_ID",referencedColumnName="ID"),
             inverseJoinColumns=@JoinColumn(name="AUTH_ROLE_ID",referencedColumnName="ID"))
     private Set<AuthRole> roles = new HashSet<>();
+
+    /**
+     * 子
+     */
+    @OneToMany(mappedBy = "parent")
+    private Set<AuthPermission> children = new HashSet<>();
 }

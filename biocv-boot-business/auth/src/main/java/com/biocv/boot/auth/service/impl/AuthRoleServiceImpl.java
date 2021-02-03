@@ -1,15 +1,20 @@
 package com.biocv.boot.auth.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.biocv.boot.Pager;
 import com.biocv.boot.auth.dao.AuthPermissionRepository;
 import com.biocv.boot.auth.dao.AuthRoleRepository;
 import com.biocv.boot.auth.domain.bo.AuthPermissionBo;
 import com.biocv.boot.auth.domain.bo.AuthRoleBo;
+import com.biocv.boot.auth.domain.bo.AuthUserBo;
 import com.biocv.boot.auth.domain.model.AuthPermission;
 import com.biocv.boot.auth.domain.model.AuthRole;
+import com.biocv.boot.auth.domain.model.AuthUser;
 import com.biocv.boot.auth.service.AuthRoleService;
 import ma.glasnost.orika.impl.ConfigurableMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +43,19 @@ public class AuthRoleServiceImpl implements AuthRoleService {
     private ConfigurableMapper configurableMapper;
 
     @Override
+    public Pager getByPager(AuthRoleBo authRoleBo) {
+        Page<AuthRole> page = authRoleRepository.findByPage(authRoleBo, authRoleBo.getPageIndex(), authRoleBo.getPageSize());
+        Pager pager = new Pager();
+        pager.setPageIndex(authRoleBo.getPageIndex());
+        pager.setPageSize(page.getTotalPages());
+        pager.setPageSize(page.getSize());
+        pager.setTotal(page.getTotalElements());
+        List<AuthRoleBo> authRoleBos = configurableMapper.mapAsList(page.getContent(), AuthRoleBo.class);
+        pager.setData(authRoleBos);
+        return pager;
+    }
+
+    @Override
     public void save(AuthRoleBo authRoleBo) {
         AuthRole authRole = Optional.ofNullable(authRoleBo)
                 .map(i->i.getId())
@@ -49,13 +67,17 @@ public class AuthRoleServiceImpl implements AuthRoleService {
 
         Set<AuthPermission> authPermissionSet = new HashSet<>();
         Set<String> authPermissionIds = authRoleBo.getAuthPermissionIds();
-        for (String authPermissionId: authPermissionIds){
-            Optional<AuthPermission> optional = authPermissionRepository.findById(authPermissionId);
-            if (optional.isPresent()){
-                authPermissionSet.add(optional.get());
+        if (!CollectionUtil.isEmpty(authPermissionIds)){
+            for (String authPermissionId: authPermissionIds){
+                Optional<AuthPermission> optional = authPermissionRepository.findById(authPermissionId);
+                if (optional.isPresent()){
+                    authPermissionSet.add(optional.get());
+                }
             }
         }
+
         authRole.setAuthPermissionSet(authPermissionSet);
+        authRoleRepository.save(authRole);
     }
 
     @Override
@@ -76,5 +98,23 @@ public class AuthRoleServiceImpl implements AuthRoleService {
         Set<AuthPermission> authPermissionSet = authRole.getAuthPermissionSet();
         List<AuthPermissionBo> authPermissionBos = configurableMapper.mapAsList(authPermissionSet, AuthPermissionBo.class);
         return authPermissionBos;
+    }
+
+    @Override
+    public AuthRoleBo getById(String id) {
+        Optional<AuthRole> optional = authRoleRepository.findById(id);
+        if (optional.isPresent()){
+            AuthRole authRole = optional.get();
+            AuthRoleBo bo = configurableMapper.map(authRole, AuthRoleBo.class);
+            return bo;
+        }
+        return null;
+    }
+
+    @Override
+    public List<AuthRoleBo> getByCondition(AuthRoleBo authRoleBo) {
+        List<AuthRole> authRoleList = authRoleRepository.findByCondition(authRoleBo);
+        List<AuthRoleBo> authRoleBos = configurableMapper.mapAsList(authRoleList, AuthRoleBo.class);
+        return authRoleBos;
     }
 }

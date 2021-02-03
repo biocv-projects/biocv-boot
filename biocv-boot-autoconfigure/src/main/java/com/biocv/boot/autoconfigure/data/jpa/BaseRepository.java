@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
+import java.util.List;
+
 /**
  * 默认的jpa接口
  * @author kai
@@ -27,5 +29,17 @@ public interface BaseRepository<T,ID> extends JpaRepository<T,ID>, JpaSpecificat
      * @since 1.0.0
      */
     Page<T> findByPage(BaseBo condition, int pageIndex, int pageSize);
+
+    /**
+     * 条件查询
+     *
+     * @param condition
+     * @return java.util.List<T>
+     * @author Tyler.feng@zkteco.com
+     * @throws
+     * @date  2021-02-02 16:48
+     * @since 1.0.0
+    */
+    List<T> findByCondition(BaseBo condition);
 
 }

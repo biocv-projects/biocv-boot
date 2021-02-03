@@ -3,6 +3,7 @@ package com.biocv.boot.auth.domain.dto;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,6 @@ public class AuthRolePermissionDto implements Serializable {
     /**
      * 权限列表
      */
-    private List<String> permissions;
+    private List<String> permissions = new ArrayList<>();
 
 }

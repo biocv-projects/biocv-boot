@@ -1,29 +1,20 @@
-package com.biocv.boot.auth.domain.bo;
+package com.biocv.boot.auth.domain.dto;
 
-import com.biocv.boot.data.QueryCondition;
-import com.biocv.boot.pojo.BaseBo;
-
-import java.util.HashSet;
-import java.util.Set;
+import com.biocv.boot.pojo.BaseDto;
 
 /**
- * Auth Permission bo
- *
  * @author kai
- * @date 2021/2/2 10:36
+ * @date 2021/2/2 18:16
  */
-public class AuthPermissionBo extends BaseBo {
-
+public class AuthPermissionDto extends BaseDto {
     /**
      * 权限名称
      */
-    @QueryCondition(column = "name")
     private String name;
 
     /**
      * 权限编码
      */
-    @QueryCondition(column = "code")
     private String code;
 
     /**
@@ -33,30 +24,17 @@ public class AuthPermissionBo extends BaseBo {
      *              API:api接口权限 (真实的权限)
      *              WIDGET:控件 (parent)
      */
-    @QueryCondition(column = "type")
     private String type;
 
     /**
      * api 请求方法 GET POST PUT DELETE
      */
-    @QueryCondition(column = "method")
     private String method;
 
     /**
      * api 请求路径
      */
-    @QueryCondition(column = "uri")
     private String uri;
-
-    /**
-     * 所属权限
-     */
-    private String parentId;
-
-    /**
-     * 子
-     */
-    private Set<AuthPermissionBo> children = new HashSet<>();
 
     public String getName() {
         return name;
@@ -96,21 +74,5 @@ public class AuthPermissionBo extends BaseBo {
 
     public void setUri(String uri) {
         this.uri = uri;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
-    public Set<AuthPermissionBo> getChildren() {
-        return children;
-    }
-
-    public void setChildren(Set<AuthPermissionBo> children) {
-        this.children = children;
     }
 }

@@ -1,5 +1,6 @@
 package com.biocv.boot.auth.domain.model;
 
+import com.sun.org.apache.regexp.internal.RE;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -14,8 +15,6 @@ import java.util.Set;
  * @date 2021-01-12 10:44
  * @since 1.0.0
  */
-@Getter
-@Setter
 @Entity
 @Table(name = "AUTH_USER")
 public class AuthUser {
@@ -58,4 +57,51 @@ public class AuthUser {
                inverseJoinColumns = {@JoinColumn(name = "AUTH_ROLE_ID",referencedColumnName = "ID")})
     private Set<AuthRole> authRoleSet;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<AuthRole> getAuthRoleSet() {
+        return authRoleSet;
+    }
+
+    public void setAuthRoleSet(Set<AuthRole> authRoleSet) {
+        this.authRoleSet = authRoleSet;
+    }
+
+    public void setIsRoot(Boolean isRoot){
+        this.isRoot = isRoot;
+    }
+
+    public Boolean getIsRoot(){
+        return isRoot;
+    }
 }

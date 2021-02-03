@@ -3,6 +3,8 @@ package com.biocv.boot.auth.domain.dto;
 import com.biocv.boot.pojo.BaseDto;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -44,6 +46,11 @@ public class AuthUserDto extends BaseDto {
      * 角色列表
      */
     private Set<String> authRoleIds;
+
+    /**
+     * 测试
+     */
+    private List<String> roleId = new ArrayList<>();
 
 
 }

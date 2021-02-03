@@ -9,6 +9,13 @@ import com.biocv.boot.Page;
  */
 public abstract class BaseVo extends Page {
 
+    private String id;
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 }

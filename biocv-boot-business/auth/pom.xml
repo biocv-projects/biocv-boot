@@ -22,6 +22,12 @@
             <artifactId>biocv-boot-starter-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.biocv.boot</groupId>
+            <artifactId>biocv-boot-starter-security</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
 
